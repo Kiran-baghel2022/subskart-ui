@@ -1,0 +1,14 @@
+.header-container{
+    width: 1278px;
+    height: 80px;
+    background-color: #fdc827;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .logo{
+        font-size: 24px;
+        font-weight: bold;
+        font-family: 'Creepster',cursive;
+        letter-spacing: 4px;
+    }
+}
