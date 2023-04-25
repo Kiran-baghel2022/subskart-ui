@@ -8,6 +8,12 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { SubskartComponent } from './subskart/subskart.component';
 import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { VenderComponent } from './vender/vender.component';
+import { ItemComponent } from './item/item.component';
+import { AdminComponent } from './admin/admin/admin.component';
+import { FooterComponent } from './footer/footer.component';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -15,14 +21,23 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     HomeComponent,
     HeaderComponent,
-    SubskartComponent
+    SubskartComponent,
+    VenderComponent,
+    ItemComponent,
+    AdminComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

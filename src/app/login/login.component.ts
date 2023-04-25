@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent {
 loginObj:any={
-  username:'',
+  usernameOrEmail:'',
   password:''
 }
 
@@ -23,18 +23,28 @@ loginObj:any={
   }
 
   login() {
-    if (this.loginObj.username.trim().length === 0) {
-      this.errorMsg = "Username is required";
+    if (this.loginObj.usernameOrEmail.trim().length === 0) {
+      this.errorMsg = "usernameOrEmail is required";
     } else if (this.loginObj.password.trim().length === 0) {
       this.errorMsg = "Password is required";
     } else {
+
+      this.auth.generateToken(this.loginObj).subscribe(
+      (response:any)=>{
+        console.log(response.token);
+        this.auth.loginUser(response.token);
+        this.router.navigate(['admin'])
+        },error=>{
+          console.log(error);
+        }
+      );
       this.errorMsg = "";
-      let res = this.auth.login(this.loginObj.username, this.loginObj.password);
-      if (res == 200) {
-        this.router.navigate(['home'])
-      } if (res == 403) {
-        this.errorMsg = "Invalid Credentials!"
-      }
+      // let res = this.auth.login(this.loginObj.username, this.loginObj.password);
+      // if (res == 200) {
+      //   this.router.navigate(['item'])
+      // } if (res == 403) {
+      //   this.errorMsg = "Invalid Credentials!"
+      // }
     }
   }
 }
