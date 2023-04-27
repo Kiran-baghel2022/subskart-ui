@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -6,9 +6,17 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-
+  cachedRequests: Array<HttpRequest<any>> = [];
+  public collectFailedRequest(request: HttpRequest<any>): void {
+      this.cachedRequests.push(request);
+    }
+  public retryFailedRequests(): void {
+      // retry the requests. this method can
+      // be called after the token is refreshed
+    }
   constructor(private router: Router, private http: HttpClient) { }
   private generateTokenUrl = 'http://localhost:8082/authenticate';
+  
 
   //call token api from server
   generateToken(loginObj: any) {
@@ -33,7 +41,7 @@ export class AuthService {
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem("token");
   }
 
 
